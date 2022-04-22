@@ -9,9 +9,9 @@ def encrypt(key, text,size):
     text = [text[i:i + size] for i in range(0, len(text), size)]
     for i in range(len(text)):
         if len(text[i]) != size:
-            text[i] += '\f'
+            text[i] += '\a'
     while (len(text) % (m*k) != 0):
-        text.append('\f' * size)
+        text.append('\a' * size)
 
     i = 0
     encrypted_text=""

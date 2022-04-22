@@ -1,13 +1,17 @@
 key=list(input())
 text=input()
 
-def encrypt(key, text, size):
-    text = [text[i:i + size] for i in range(0, len(text), size)]
+def add_0(text,size,key):
     for i in range(len(text)):
         if len(text[i]) != size:
             text[i] += '\0'
     while (len(text) % len(key) != 0):
         text.append('\0' * size)
+    return text
+
+def encrypt(key, text, size):
+    text = [text[i:i + size] for i in range(0, len(text), size)]
+    text = add_0(text,size,key)
     i=0
     encrypted_text=""
     while i<len(text):
@@ -22,11 +26,7 @@ def encrypt(key, text, size):
 
 def dencrypt(key,text,size):
     text = [text[i:i + size] for i in range(0, len(text), size)]
-    for i in range(len(text)):
-        if len(text[i]) != size:
-            text[i] += '\0'
-    while (len(text) % len(key) != 0):
-        text.append('\0' * size)
+    text = add_0(text,size,key)
     i=0
     dencrypted_text=""
     while i<len(text):
