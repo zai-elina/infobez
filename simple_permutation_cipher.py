@@ -1,5 +1,3 @@
-key=list(input())
-text=input()
 
 def add_0(text,size,key):
     for i in range(len(text)):
@@ -9,7 +7,7 @@ def add_0(text,size,key):
         text.append('\0' * size)
     return text
 
-def encrypt(key, text, size):
+def encrypt_simple(key, text, size):
     text = [text[i:i + size] for i in range(0, len(text), size)]
     text = add_0(text,size,key)
     i=0
@@ -24,7 +22,7 @@ def encrypt(key, text, size):
     # encrypted_text=encrypted_text.replace('\0','')
     return encrypted_text
 
-def dencrypt(key,text,size):
+def dencrypt_simple(key,text,size):
     text = [text[i:i + size] for i in range(0, len(text), size)]
     text = add_0(text,size,key)
     i=0
@@ -39,7 +37,3 @@ def dencrypt(key,text,size):
     # dencrypted_text = dencrypted_text.replace('\0', '')
     return dencrypted_text
 
-new_text=encrypt(key,text,1)
-print(new_text)
-p=dencrypt(key,new_text,1)
-print(p)

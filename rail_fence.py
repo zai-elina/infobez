@@ -1,6 +1,3 @@
-m=int(input())
-n=int(input())
-text=input()
 
 def add_0(n,text,size):
     for i in range(len(text)):
@@ -10,58 +7,67 @@ def add_0(n,text,size):
         text.append('\0'*size)
     return text
 
-def encrypt(m,n, text,size):
+def encrypt_rail(m,n, text,size):
     text = [text[i:i + size] for i in range(0, len(text), size)]
     text = add_0(n,text,size)
     matrix=[['']*n for i in range(m)]
-    i=0
-    j=0
-    counter=-1
-    for k in range(len(text)):
-        matrix[i][j]=text[k]
-        j+=1
-        if i==0 or i==m-1:
-            counter *= -1
-        i+=counter
-    cipher=""
-    for i in range(m):
-        for j in range(n):
-            if matrix[i][j] !='':
-                cipher += matrix[i][j]
+
+    cipher = ""
+    for t in range(n-1,len(text)+1,n):
+        i = 0
+        j = 0
+        counter = -1
+        for k in range(t+1):
+            if j==n or i==m:
+                break
+            if t==n-1:
+                matrix[i][j] = text[k]
+            else:
+                matrix[i][j] = text[k+t-n+1]
+            j+=1
+            if i==0 or i==m-1:
+                counter *= -1
+            i+=counter
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] !='':
+                    cipher += matrix[i][j]
+
     return cipher
 
-def dencrypt(m,n, text,size):
+def dencrypt_rail(m,n, text,size):
     text = [text[i:i + size] for i in range(0, len(text), size)]
     text = add_0(n,text,size)
     matrix = [[''] * n for i in range(m)]
-    i=0
-    j=0
-    counter=-1
-    for k in range(len(text)):
-        matrix[i][j]= '\0'
-        j+=1
-        if i==0 or i==m-1:
-            counter *=-1
-        i+=counter
+
     text_counter=0
-    for i in range(m):
-        for j in range(n):
-            if matrix[i][j] == '\0':
-                matrix[i][j] = text[text_counter]
-                text_counter+=1
-    i = 0
-    j = 0
-    counter = -1
     cipher = ""
-    for k in range(len(text)):
-        cipher += matrix[i][j]
-        j += 1
-        if i == 0 or i == m - 1:
-            counter *= -1
-        i += counter
+    for t in range(n-1, len(text)+1, n-1):
+        i = 0
+        j = 0
+        counter = -1
+        for k in range(t+1):
+            if j==n:
+                break
+            matrix[i][j]= '\0'
+            j+=1
+            if i==0 or i==m-1:
+                counter *=-1
+            i+=counter
+
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] == '\0':
+                    matrix[i][j] = text[text_counter]
+                    text_counter+=1
+        i = 0
+        j = 0
+        counter = -1
+        for k in range(n):
+            cipher += matrix[i][j]
+            j += 1
+            if i == 0 or i == m - 1:
+                counter *= -1
+            i += counter
+
     return cipher
-
-
-a=encrypt(m,n,text,1)
-print(a)
-print(dencrypt(m,n,a,1))

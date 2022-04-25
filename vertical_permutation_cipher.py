@@ -1,8 +1,7 @@
 import numpy as np
-key=input()
-text=input()
 
-def encrypt(key, text,size):
+
+def encrypt_vertical(key, text,size):
     m = int(key[0])
     k = int(key[2])
     key = list(key[4:])
@@ -25,7 +24,7 @@ def encrypt(key, text,size):
         i += m*k
     return encrypted_text
 
-def dencrypt(key, text,size):
+def dencrypt_vertical(key, text,size):
     m = int(key[0])
     k = int(key[2])
     key = list(key[4:])
@@ -44,8 +43,3 @@ def dencrypt(key, text,size):
         i += m*k
 
     return dencrypted_text
-
-
-new_text=encrypt(key,text,1)
-print(new_text)
-print(dencrypt(key,new_text,1))
