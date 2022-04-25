@@ -140,8 +140,14 @@ if __name__ == "__main__":
             name_cipher="Шифр простой перестановки"
             save_cipher(name,name_cipher,key,size,str1)
             if choice_0=='1':
-                text = text.replace('\0', '')
-            print("Зашифрованное сообщение:",text+'\n')
+                text1 = text.replace('\0', '')
+                print("Зашифрованное сообщение:", text1 + '\n')
+            else:
+                print("Зашифрованное сообщение:",text+'\n')
+            dec=input("Вы хотите расшифровать?(Да/Нет)\n")
+            if dec=='Да':
+                text = dencrypt_simple(key, text, size)
+                print("Расшифрованное сообщение:", text + '\n')
         elif text_vybor == "2":
             key, choice_0, size = choosing_a_vertical_permutation()
             choice_text = input('Выберите способ ввода текста:\n 1)Через консоль\n 2)Из файла\n')
@@ -158,8 +164,14 @@ if __name__ == "__main__":
             name_cipher="Шифр вертикальной перестановки"
             save_cipher(name,name_cipher,key,size,str1)
             if choice_0 == '1':
-                text = text.replace('\0', '')
-            print("Зашифрованное сообщение:", text + '\n')
+                text1 = text.replace('\0', '')
+                print("Зашифрованное сообщение:", text1 + '\n')
+            else:
+                print("Зашифрованное сообщение:", text + '\n')
+            dec = input("Вы хотите расшифровать?(Да/Нет)\n")
+            if dec == 'Да':
+                text = dencrypt_vertical(key, text, size)
+                print("Расшифрованное сообщение:", text + '\n')
         elif text_vybor == "3":
             m,n, choice_0, size = choosing_a_rail_fence()
             choice_text = input('Выберите способ ввода текста:\n 1)Через консоль\n 2)Из файла\n')
@@ -177,8 +189,14 @@ if __name__ == "__main__":
             key="{}*{}".format(m,n)
             save_cipher(name,name_cipher,key,size,str1)
             if choice_0 == '1':
-                text = text.replace('\f', '')
-            print("Зашифрованное сообщение:", text + '\n')
+                text1 = text.replace('\0', '')
+                print("Зашифрованное сообщение:", text1 + '\n')
+            else:
+                print("Зашифрованное сообщение:", text + '\n')
+            dec = input("Вы хотите расшифровать?(Да/Нет)\n")
+            if dec == 'Да':
+                text = dencrypt_rail(m,n, text, size)
+                print("Расшифрованное сообщение:", text + '\n')
         elif text_vybor == "4":
             choice_00 = input(
             'Выберите способ шифрования последнего блока исходного текста, размер которого меньше размера блока шифрования:\n 1)Без добавления нулей\n 2)С добавлением нулей\n' + '\n')
@@ -194,4 +212,4 @@ if __name__ == "__main__":
         elif text_vybor == "6":
             break
         else:
-            print('Введите 1,2,3,4 или 5')
+            print('Введите 1,2,3,4,5 или 6')
