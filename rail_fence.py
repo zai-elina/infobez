@@ -47,7 +47,7 @@ def dencrypt_rail(m,n, text,size):
         j = 0
         counter = -1
         for k in range(t+1):
-            if j==n:
+            if j == n or i == m:
                 break
             matrix[i][j]= '\0'
             j+=1
@@ -57,7 +57,7 @@ def dencrypt_rail(m,n, text,size):
 
         for i in range(m):
             for j in range(n):
-                if matrix[i][j] == '\0':
+                if matrix[i][j] == '\0' and text_counter!=len(text):
                     matrix[i][j] = text[text_counter]
                     text_counter+=1
         i = 0

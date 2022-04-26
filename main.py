@@ -11,7 +11,7 @@ def choosing_a_simple_permutation():
     if choice_of_key == "1":
         key = input('Введите ключ\n')
     elif choice_of_key == '2':
-        n = random.randint(1, 10)
+        n = random.randint(3, 10)
         key = [str(i) for i in range(0, n, 1)]
         random.shuffle(key)
         key = ''.join(key)
@@ -34,7 +34,7 @@ def choosing_a_vertical_permutation():
     if choice_of_key == "1":
         key = input('Введите ключ в следующем виде "2*4 1302", где сначала указывается размер матрицы, затем сам ключ\n Учтите, что количество столбцов равно длине ключа\n')
     elif choice_of_key == '2':
-        m = str(random.randint(1, 9))
+        m = str(random.randint(2, 9))
         n = random.randint(2, 9)
         k = str(n)
         help = [str(i) for i in range(0, n, 1)]
@@ -66,8 +66,8 @@ def choosing_a_rail_fence():
         n = int(input(
             'Введите количество столбцов(>3)\n'))
     elif choice_of_key == '2':
-        m = random.randint(1,10)
-        n = random.randint(3, 10)
+        m = random.randint(3,5)
+        n = random.randint(6, 10)
         print('Получившийся резмер:', '{}*{}'.format(m,n))
     choice_0 = input(
         'Выберите способ шифрования последнего блока исходного текста, размер которого меньше размера блока шифрования:\n 1)Без добавления нулей\n 2)С добавлением нулей\n')
@@ -105,12 +105,16 @@ def print_inf(name):
     fn = "cipher.xlsx"
     wb = load_workbook(filename="cipher.xlsx", data_only=True)
     ws = wb['Sheet1']
+    flag=0
     for x in range(1, ws.max_row + 1):
         if ws.cell(row=x, column=1).value==name:
             print("Название шифра:",ws.cell(row=x, column=2).value,",", "Ключ шифрования:",
             ws.cell(row=x, column=3).value, ",",
             ws.cell(row=x, column=4).value,",","Количество символов",
             ws.cell(row=x, column=5).value)
+            flag=1
+    if flag==0:
+        print("Ключа с таким названием не существует")
     wb.save(fn)
     wb.close()
 
@@ -130,7 +134,9 @@ if __name__ == "__main__":
             if choice_text=='1':
                 text=input('Введите текст\n')
             elif choice_text=='2':
-                pass
+                file=input("Введите имя файла:  ")
+                with open(file, encoding='utf-8') as f:
+                    text = f.read()
             text=encrypt_simple(key,text,size)
             if choice_0 == '1':
                 str1='Без добавления нулей'
@@ -141,20 +147,47 @@ if __name__ == "__main__":
             save_cipher(name,name_cipher,key,size,str1)
             if choice_0=='1':
                 text1 = text.replace('\0', '')
-                print("Зашифрованное сообщение:", text1 + '\n')
+                sms_out=input("Куда вы хотите вывести зашифрованное сообщение:\n1)В консоль\n2)В файл\n")
+                if sms_out=='1':
+                    print("Зашифрованное сообщение:", text1 + '\n')
+                elif sms_out=='2':
+                    with open("encrypted1_text.txt", 'w', encoding='utf-8') as f:
+                        f.write(text1)
+                        print("Зашифрованный текст в файле encrypted1_text.txt.")
             else:
-                print("Зашифрованное сообщение:",text+'\n')
+                sms_out = input("Куда вы хотите вывести зашифрованное сообщение:\n1)В консоль\n2)В файл\n")
+                if sms_out == '1':
+                    print("Зашифрованное сообщение:", text + '\n')
+                elif sms_out == '2':
+                    with open("encrypted1_text.txt", 'w', encoding='utf-8') as f:
+                        f.write(text)
+                        print("Зашифрованный текст в файле encrypted1_text.txt.")
             dec=input("Вы хотите расшифровать?(Да/Нет)\n")
             if dec=='Да':
+                choice_text = input('Выберите способ ввода текста:\n 1)Введеное ранее сообщение\n 2)Из файла\n')
+                if choice_text == '1':
+                    text = text
+                elif choice_text == '2':
+                    file = input("Введите имя файла:  ")
+                    with open(file, encoding='utf-8') as f:
+                        text = f.read()
                 text = dencrypt_simple(key, text, size)
-                print("Расшифрованное сообщение:", text + '\n')
+                sms_out1 = input("Куда вы хотите вывести расшифрованное сообщение:\n1)В консоль\n2)В файл\n")
+                if sms_out1 == '1':
+                    print("Расшифрованное текст:", text + '\n')
+                elif sms_out1 == '2':
+                    with open("normal1_text.txt", 'w', encoding='utf-8') as f:
+                        f.write(text)
+                        print("Расшифрованное текст в файле normal1_text.txt.")
         elif text_vybor == "2":
             key, choice_0, size = choosing_a_vertical_permutation()
             choice_text = input('Выберите способ ввода текста:\n 1)Через консоль\n 2)Из файла\n')
             if choice_text == '1':
                 text = input('Введите текст\n')
             elif choice_text == '2':
-                pass
+                file = input("Введите имя файла:  ")
+                with open(file, encoding='utf-8') as f:
+                    text = f.read()
             text = encrypt_vertical(key, text, size)
             if choice_0 == '1':
                 str1='Без добавления нулей'
@@ -164,21 +197,48 @@ if __name__ == "__main__":
             name_cipher="Шифр вертикальной перестановки"
             save_cipher(name,name_cipher,key,size,str1)
             if choice_0 == '1':
-                text1 = text.replace('\0', '')
-                print("Зашифрованное сообщение:", text1 + '\n')
+                text1 = text.replace('\a', '')
+                sms_out = input("Куда вы хотите вывести зашифрованное сообщение:\n1)В консоль\n2)В файл\n")
+                if sms_out == '1':
+                    print("Зашифрованное сообщение:", text1 + '\n')
+                elif sms_out == '2':
+                    with open("encrypted2_text.txt", 'w', encoding='utf-8') as f:
+                        f.write(text1)
+                        print("Зашифрованный текст в файле encrypted2_text.txt.")
             else:
-                print("Зашифрованное сообщение:", text + '\n')
+                sms_out = input("Куда вы хотите вывести зашифрованное сообщение:\n1)В консоль\n2)В файл\n")
+                if sms_out == '1':
+                    print("Зашифрованное сообщение:", text + '\n')
+                elif sms_out == '2':
+                    with open("encrypted2_text.txt", 'w', encoding='utf-8') as f:
+                        f.write(text)
+                        print("Зашифрованный текст в файле encrypted2_text.txt.")
             dec = input("Вы хотите расшифровать?(Да/Нет)\n")
             if dec == 'Да':
+                choice_text = input('Выберите способ ввода текста:\n 1)Введеное ранее сообщение\n 2)Из файла\n')
+                if choice_text == '1':
+                    text = text
+                elif choice_text == '2':
+                    file = input("Введите имя файла:  ")
+                    with open(file, encoding='utf-8') as f:
+                        text = f.read()
                 text = dencrypt_vertical(key, text, size)
-                print("Расшифрованное сообщение:", text + '\n')
+                sms_out1 = input("Куда вы хотите вывести расшифрованное сообщение:\n1)В консоль\n2)В файл\n")
+                if sms_out1 == '1':
+                    print("Расшифрованное текст:", text + '\n')
+                elif sms_out1 == '2':
+                    with open("normal2_text.txt", 'w', encoding='utf-8') as f:
+                        f.write(text)
+                        print("Расшифрованное текст в файле normal2_text.txt.")
         elif text_vybor == "3":
             m,n, choice_0, size = choosing_a_rail_fence()
             choice_text = input('Выберите способ ввода текста:\n 1)Через консоль\n 2)Из файла\n')
             if choice_text == '1':
                 text = input('Введите текст\n')
             elif choice_text == '2':
-                pass
+                file = input("Введите имя файла:  ")
+                with open(file, encoding='utf-8') as f:
+                    text = f.read()
             text = encrypt_rail(m,n, text, size)
             if choice_0 == '1':
                 str1='Без добавления нулей'
@@ -190,13 +250,38 @@ if __name__ == "__main__":
             save_cipher(name,name_cipher,key,size,str1)
             if choice_0 == '1':
                 text1 = text.replace('\0', '')
-                print("Зашифрованное сообщение:", text1 + '\n')
+                sms_out = input("Куда вы хотите вывести зашифрованное сообщение:\n1)В консоль\n2)В файл\n")
+                if sms_out == '1':
+                    print("Зашифрованное сообщение:", text1 + '\n')
+                elif sms_out == '2':
+                    with open("encrypted3_text.txt", 'w', encoding='utf-8') as f:
+                        f.write(text1)
+                        print("Зашифрованный текст в файле encrypted3_text.txt.")
             else:
-                print("Зашифрованное сообщение:", text + '\n')
+                sms_out = input("Куда вы хотите вывести зашифрованное сообщение:\n1)В консоль\n2)В файл\n")
+                if sms_out == '1':
+                    print("Зашифрованное сообщение:", text + '\n')
+                elif sms_out == '2':
+                    with open("encrypted3_text.txt", 'w', encoding='utf-8') as f:
+                        f.write(text)
+                        print("Зашифрованный текст в файле encrypted3_text.txt.")
             dec = input("Вы хотите расшифровать?(Да/Нет)\n")
             if dec == 'Да':
+                choice_text = input('Выберите способ ввода текста:\n 1)Введеное ранее сообщение\n 2)Из файла\n')
+                if choice_text == '1':
+                    text = text
+                elif choice_text == '2':
+                    file = input("Введите имя файла:  ")
+                    with open(file, encoding='utf-8') as f:
+                        text = f.read()
                 text = dencrypt_rail(m,n, text, size)
-                print("Расшифрованное сообщение:", text + '\n')
+                sms_out1 = input("Куда вы хотите вывести расшифрованное сообщение:\n1)В консоль\n2)В файл\n")
+                if sms_out1 == '1':
+                    print("Расшифрованное текст:", text + '\n')
+                elif sms_out1 == '2':
+                    with open("normal3_text.txt", 'w', encoding='utf-8') as f:
+                        f.write(text)
+                        print("Расшифрованное текст в файле normal3_text.txt.")
         elif text_vybor == "4":
             choice_00 = input(
             'Выберите способ шифрования последнего блока исходного текста, размер которого меньше размера блока шифрования:\n 1)Без добавления нулей\n 2)С добавлением нулей\n' + '\n')
@@ -204,7 +289,9 @@ if __name__ == "__main__":
             if choice_text == '1':
                 text = input('Введите текст\n')
             elif choice_text == '2':
-                pass
+                file = input("Введите имя файла:  ")
+                with open(file, encoding='utf-8') as f:
+                    text = f.read()
             encrypt_multiple(text,choice_00)
         elif text_vybor == "5":
             name=input('Название  ')

@@ -36,7 +36,7 @@ def encrypt_multiple(text,choice_00):
         if i == 4:
             i = random.randint(1, 4)
         if i==1:
-            n = random.randint(1, 10)
+            n = random.randint(3, 10)
             key = [str(i) for i in range(0, n, 1)]
             random.shuffle(key)
             key = ''.join(key)
@@ -82,8 +82,8 @@ def encrypt_multiple(text,choice_00):
             else:
                 print(text)
         if i==3:
-            m = random.randint(3, 10)
-            n = random.randint(3, 10)
+            m = random.randint(3, 5)
+            n = random.randint(6, 10)
             size = random.randint(1, 5)
             text = encrypt_rail(m,n, text, size)
             if choice_00 == '1':
