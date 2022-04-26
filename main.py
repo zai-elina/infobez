@@ -17,16 +17,11 @@ def choosing_a_simple_permutation():
         key = ''.join(key)
         print('Получившийся ключ:', key)
     choice_0=input('Выберите способ шифрования последнего блока исходного текста, размер которого меньше размера блока шифрования:\n 1)Без добавления нулей\n 2)С добавлением нулей\n')
-    choice_size=input('Выберите элементы блока:\n1)отдельный символ\n2)группа из произвольного количества символов\n3)из бит\n4)из байт\n')
+    choice_size=input('Выберите элементы блока:\n1)отдельный символ\n2)группа из произвольного количества символов\n')
     if choice_size=='1':
         size=1
     elif choice_size=='2':
         size=int(input('Введите количеств символов в блоке\n'))
-    elif choice_size=='3':
-        size=int(input('Введите количеств бит в блоке\n'))
-        size =size*8
-    elif choice_size == '4':
-        pass
     return key, choice_0,size
 
 def choosing_a_vertical_permutation():
@@ -45,17 +40,11 @@ def choosing_a_vertical_permutation():
     choice_0 = input(
         'Выберите способ шифрования последнего блока исходного текста, размер которого меньше размера блока шифрования:\n 1)Без добавления нулей\n 2)С добавлением нулей\n')
     choice_size = input(
-        'Выберите элементы блока:\n1)отдельный символ\n2)группа из произвольного количества символов\n3)из бит\n4)из байт\n')
+        'Выберите элементы блока:\n1)отдельный символ\n2)группа из произвольного количества символов\n')
     if choice_size == '1':
         size = 1
     elif choice_size == '2':
         size = int(input('Введите количеств символов в блоке\n'))
-    elif choice_size == '3':
-        size = int(input('Введите количеств бит в блоке\n'))
-        size = size * 8
-    elif choice_size == '4':
-        size = int(input('Введите количеств байт в блоке\n'))
-        size = size * 8
     return key, choice_0, size
 
 def choosing_a_rail_fence():
@@ -72,16 +61,11 @@ def choosing_a_rail_fence():
     choice_0 = input(
         'Выберите способ шифрования последнего блока исходного текста, размер которого меньше размера блока шифрования:\n 1)Без добавления нулей\n 2)С добавлением нулей\n')
     choice_size = input(
-        'Выберите элементы блока:\n1)отдельный символ\n2)группа из произвольного количества символов\n3)из бит\n4)из байт\n')
+        'Выберите элементы блока:\n1)отдельный символ\n2)группа из произвольного количества символов\n')
     if choice_size == '1':
         size = 1
     elif choice_size == '2':
         size = int(input('Введите количеств символов в блоке\n'))
-    elif choice_size == '3':
-        size = int(input('Введите количеств бит в блоке\n'))
-        size = size * 8
-    elif choice_size == '4':
-        pass
     return m,n, choice_0, size
 
 def save_cipher(name,name_cipher,key,size,str1):
